@@ -7,6 +7,11 @@ from django.conf import settings
 from django.core.mail import EmailMultiAlternatives
 from .models import User, ConfirmString
 from . import forms
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework import generics
+from django.contrib.auth import get_user_model
+from .serializers import UserSerializer
 
 
 def hash_code(s, slat="mysite"):
@@ -35,6 +40,24 @@ def send_mail(email, code):
     msg = EmailMultiAlternatives(sub_object, text_context, settings.EMAIL_HOST_USER, [email])
     msg.attach_alternative(html_context, "text/html")
     msg.send()
+
+
+class HelloView(APIView):
+    """
+    A simple API view that returns a greeting.
+    """
+    def get(self, request):
+        return Response({"message": "Hello, world!"})
+
+
+class UserListView(generics.ListAPIView):
+    def get(self, request):
+        print("收到请求")
+        queryset = User.objects.all()
+        print(queryset)
+        users_json = UserSerializer(queryset, many=True)
+        print(users_json.data)
+        return Response(users_json.data)
 
 
 def index(request):

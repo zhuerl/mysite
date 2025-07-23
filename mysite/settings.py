@@ -39,7 +39,27 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'login',
     'captcha',
+    'rest_framework',
+    'drf_spectacular',
 ]
+
+REST_FRAMEWORK = {
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+}
+
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'Your Project API',
+    'DESCRIPTION': 'API文档描述',
+    'VERSION': '1.0.0',
+    'SERVE_INCLUDE_SCHEMA': False,
+    # 可选：Swagger UI 和 ReDoc
+    'SWAGGER_UI_SETTINGS': {
+        'deepLinking': True,
+        'persistAuthorization': True,
+        'defaultModelsExpandDepth': -1,
+    },
+}
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -79,12 +99,12 @@ DATABASES = {
     'default': {
         # 'ENGINE': 'django.db.backends.sqlite3',
         # 'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',  #数据库引擎
-        'NAME': 'login',
-        'USER': 'postgres',
-        "PASSWORD": 'zhuerlei',
-        "HOST": '',
-        'PORT': 5432,
+        'ENGINE': 'django.db.backends.mysql',  #数据库引擎
+        'NAME': 'sys',
+        'USER': 'root',
+        "PASSWORD": 'zel123456',
+        "HOST": '127.0.0.1',
+        'PORT': 3306,
     }
 }
 

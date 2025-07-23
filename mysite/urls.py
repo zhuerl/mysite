@@ -17,7 +17,14 @@ from django.contrib import admin
 from django.urls import path
 from django.urls import include
 from login import views
+from rest_framework import routers
+from drf_spectacular.views import SpectacularAPIView, SpectacularRedocView, SpectacularSwaggerView
+from login.views import HelloView
+from login.views import UserListView
 
+urlpatterns = [
+
+]
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -26,5 +33,13 @@ urlpatterns = [
     path('logout/', views.logout),
     path('register/', views.register),
     path('captcha', include('captcha.urls')),
-    path('confirm/', views.user_confirm)
+    path('confirm/', views.user_confirm),
+    path('api/users/', UserListView.as_view(), name='user-list'),
+    path('api/hello/', HelloView.as_view(), name='hello'),
+    # 文档路由
+    path('api/schema/', SpectacularAPIView.as_view(), name='schema'),
+    # Swagger UI
+    path('api/schema/swagger-ui/', SpectacularSwaggerView.as_view(url_name='schema'), name='swagger-ui'),
+    # ReDoc UI
+    path('api/schema/redoc/', SpectacularRedocView.as_view(url_name='schema'), name='redoc'),
 ]
